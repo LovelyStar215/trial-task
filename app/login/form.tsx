@@ -13,7 +13,6 @@ export const LoginForm = () => {
     });
     const [error, setError] = useState("");
 
-    const searchParams = useSearchParams();
     const callbackUrl =  "/";
 
     const onSubmit = async (e: React.FormEvent) => {

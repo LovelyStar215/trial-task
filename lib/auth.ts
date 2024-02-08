@@ -3,6 +3,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+
 export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/login",
@@ -23,7 +24,7 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
 
-            async authorize(credentials: Record<"email" | "password", string> | undefined): Promise<{ id: string; email: string; name: string } | null> {
+            async authorize(credentials, req) {
                 if (!credentials?.email || !credentials.password) {
                     return null;
                 }

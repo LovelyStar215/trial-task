@@ -23,23 +23,29 @@ const Header = () => {
     useEffect(() => {
         async function checkConnection() {
             // Check if MetaMask is installed and connected
-            if (window.ethereum && window.ethereum.isConnected()) {
-                setConnected(true);
-                getWalletAddress();
+            if (typeof window.ethereum !== "undefined") {
+                if (window.ethereum && window.ethereum.isConnected()) {
+                    setConnected(true);
+                    getWalletAddress();
+                } else {
+                    setConnected(false);
+                }
             } else {
                 setConnected(false);
             }
         }
         checkConnection();
 
-        // Add event listener to detect changes in connection status
-        window.ethereum.on('accountsChanged', () => {
-            checkConnection();
-        });
+        if (typeof window.ethereum !== "undefined") {
+            // // Add event listener to detect changes in connection status
+            window.ethereum.on('accountsChanged', () => {
+                checkConnection();
+            });
 
-        return () => {
-            window.ethereum.removeAllListeners('accountsChanged');
-        };
+            return () => {
+                window.ethereum.removeAllListeners('accountsChanged');
+            };
+        }
     }, []);
 
     const getWalletAddress = async () => {
