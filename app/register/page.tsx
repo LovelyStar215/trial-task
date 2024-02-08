@@ -1,11 +1,11 @@
-import { LoginForm } from "./form";
+import { RegisterForm } from "./form";
 import Header from "@/components/header.component";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <>
       <section className="bg-ct-blue-600 min-h-screen">
-        <LoginForm />
+        <RegisterForm />
 
         <Header />
       </section>
