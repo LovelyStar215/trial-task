@@ -32,7 +32,7 @@ export const LoginForm = () => {
         if (!res?.error) {
             router.push(callbackUrl);
         } else {
-            setError("invalid email or password");
+            setError("Invalid email or password");
         }
     };
 
@@ -101,7 +101,7 @@ export const LoginForm = () => {
                         <i className="ri-lock-2-fill"></i>
                     </div>
                 </div>
-                <button disabled={loading} type="submit" className="login__button mt-6">{loading ? "loading..." : "Sign In"}</button>
+                <button disabled={loading} type="submit" className="login__button mt-6">{loading ? "Loading..." : "Sign In"}</button>
 
                 <div className="login__register">
                     Don't have an account? <a href="/register">Register</a>

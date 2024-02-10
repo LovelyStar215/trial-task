@@ -19,7 +19,7 @@ export const RegisterForm = () => {
         password: "",
         confirmpassword: "",
         address: "",
-        wallet_address: "0x00000000"
+        wallet_address: ""
     });
     const [error, setError] = useState("");
 
@@ -172,8 +172,8 @@ export const RegisterForm = () => {
                 <div className="login__inputs">
                     { metamaskButton }
                     <div className="login__box">
-                        <input disabled name="wallet_address" value={formValues.wallet_address} type="text" placeholder="0x00000" className="login__input bg-transparent" required/>
-                        <i className="ri-mail-fill"></i>
+                        <input name="wallet_address" value={formValues.wallet_address} type="text" placeholder="0x00000000" required className="login__input bg-transparent" readOnly/>
+                        <i className="ri-lock-2-fill"></i>
                     </div>
                     <div className="login__box">
                         <input type="email" name="email" onChange={handleChange} value={formValues.email} placeholder="Email ID" required className="login__input bg-transparent appearance-none" />
@@ -193,7 +193,7 @@ export const RegisterForm = () => {
                         <i className="ri-mail-fill"></i>
                     </div>
                 </div>
-                <button disabled={loading} type="submit" className="login__button mt-6">{loading ? "loading..." : "Sign Up"}</button>
+                <button disabled={loading} type="submit" className="login__button mt-6">{loading ? "Loading..." : "Sign Up"}</button>
 
                 <div className="login__register">
                     Do you have an account? <a href="/login">Login</a>

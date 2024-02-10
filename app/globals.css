@@ -44,7 +44,6 @@
 
 
 /*=============== GOOGLE FONTS ===============*/
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 /*=============== VARIABLES CSS ===============*/
 :root {
@@ -88,7 +87,7 @@ img {
 /*=============== LOGIN ===============*/
 .login {
   position: relative;
-  height: 100vh;
+  height: 100%;
   display: grid;
   align-items: center;
 }
@@ -106,7 +105,7 @@ img {
   margin-inline: 1.5rem;
   background-color: hsla(0, 0%, 100%, .01);
   border: 2px solid hsla(0, 0%, 100%, .7);
-  padding: 2.5rem 1rem;
+  padding: 2.1rem 1rem;
   color: var(--white-color);
   border-radius: 1rem;
   backdrop-filter: blur(16px);
@@ -230,6 +229,28 @@ img {
   }
 }
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+input:-internal-autofill-selected {
+  appearance: menulist-button;
+  background-image: none !important;
+  background-color: transparent;
+  color: fieldtext !important;
+}
+
+.link-underline {
+  border-bottom-width: 0;
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+  background-size: 0 3px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .3s ease-in-out;
+}
+
+.link-underline-black {
+  border-radius: 5px;
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#F2C, #F2C)
+}
+
+.link-underline:hover {
+  background-size: 100% 3px;
+  background-position: 0 100%
 }

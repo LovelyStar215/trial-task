@@ -31,7 +31,7 @@ export async function POST(req: Request) {
             .single();
         if (existingData) {
             return NextResponse.json({
-                msg: "User already exist"
+                message: "User already exist"
             });
 
         } else {
@@ -46,12 +46,12 @@ export async function POST(req: Request) {
 
             if (error) {
                 return NextResponse.json({
-                    msg: "Couldn't authenticate user"
+                    message: "Couldn't authenticate user"
                 });
             }
 
             return NextResponse.json({
-                msg: "Success"
+                message: "Success"
             });
         }
     } catch (error: any) {
