@@ -81,13 +81,13 @@ export const LoginForm = () => {
         //     </button>
 
         // </form>
-        <div className="login relative">
-            <img src="/img/login-bg.png" alt="image" className="login__bg" />
+        <div className="relative h-[100vh] grid items-center justify-center">
+            <img src="/img/login-bg.png" alt="image" className="absolute w-full h-full object-cover object-center blur-md" />
 
             <form onSubmit={onSubmit} className="login__form">
-                <h1 className="login__title">Login</h1>
+                <h1 className="text-center text-[2rem] mb-[1.25rem]">Login</h1>
 
-                <div className="login__inputs">
+                <div className="grid gap-y-[1.25rem] mt-7">
                     {error && (
                         <p className="text-center bg-red-300 py-4 mb-6 rounded">{error}</p>
                     )}

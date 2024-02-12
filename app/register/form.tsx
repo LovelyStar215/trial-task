@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useState, useEffect, useCallback } from "react";
+import { usePathname } from 'next/navigation'
 
 export interface AccountType {
     address?: string;
@@ -13,6 +14,7 @@ export interface AccountType {
 declare let window: any;
 
 export const RegisterForm = () => {
+    const pathname = usePathname()
     const [loading, setLoading] = useState(false);
     const [formValues, setFormValues] = useState({
         email: "",
@@ -22,6 +24,7 @@ export const RegisterForm = () => {
         wallet_address: ""
     });
     const [error, setError] = useState("");
+    console.log(pathname);
 
     // Connect with Metamask
     const [accountData, setAccountData] = useState<AccountType>({});
@@ -162,7 +165,7 @@ export const RegisterForm = () => {
         //     </button>
         // </form>
         <div className="login relative" >
-            <img src="/img/login-bg.png" alt="image" className="login__bg" />
+            <img src="/img/login-bg.png" alt="image" className="login__bg blur-md" />
 
             <form onSubmit={onSubmit} className="login__form">
                 <h1 className="login__title">Register</h1>
@@ -170,9 +173,9 @@ export const RegisterForm = () => {
                     <p className="text-center bg-red-300 py-4 mb-6 rounded">{error}</p>
                 )}
                 <div className="login__inputs">
-                    { metamaskButton }
+                    {metamaskButton}
                     <div className="login__box">
-                        <input name="wallet_address" value={formValues.wallet_address} type="text" placeholder="0x00000000" required className="login__input bg-transparent" readOnly/>
+                        <input name="wallet_address" value={formValues.wallet_address} type="text" placeholder="0x00000000" required className="login__input bg-transparent" readOnly />
                         <i className="ri-lock-2-fill"></i>
                     </div>
                     <div className="login__box">

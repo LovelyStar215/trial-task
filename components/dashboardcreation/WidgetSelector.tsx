@@ -3,9 +3,9 @@
 import { useState } from 'react';
 
 interface WidgetSelectorProps {
-  selectedWidget: string;
-  onWidgetSelect: (widgetId: string) => void;
-  onWidgetDeselect: (widgetId: string) => void;
+  selectedWidget: number;
+  onWidgetSelect: (widgetId: number) => void;
+  onWidgetDeselect: (widgetId: number) => void;
 }
 
 const WidgetSelector: React.FC<WidgetSelectorProps> = ({ selectedWidget, onWidgetSelect, onWidgetDeselect }) => {
@@ -14,28 +14,27 @@ const WidgetSelector: React.FC<WidgetSelectorProps> = ({ selectedWidget, onWidge
     'Widget 1',
     'Widget 2',
     'Widget 3',
-    // Add more widget options as needed
   ]);
-
-  const handleWidgetClick = (widgetId: string) => {
-    if (selectedWidget.includes(widgetId)) {
+  const handleWidgetClick = (widgetId: number) => {
+    console.log(widgetId, selectedWidget);
+    if (selectedWidget == widgetId) {
       onWidgetDeselect(widgetId);
     } else {
+      console.log("selected: ", widgetId);
       onWidgetSelect(widgetId);
     }
   };
 
   return (
     <div>
-      <span className='text-lg font-bold'>Widget Selector</span>
       <ul className='my-2'>
-        {widgets.map(widgetId => (
+        {widgets.map((widgetName, index) => (
           <li
-            key={widgetId}
-            onClick={() => handleWidgetClick(widgetId)}
-            style={{ cursor: 'pointer', color: selectedWidget.includes(widgetId) ? 'blue' : 'black' }}
+            key={index}
+            onClick={() => handleWidgetClick(index)}
+            style={{ cursor: 'pointer', color: selectedWidget == index ? 'blue' : 'black' }}
           >
-            {widgetId}
+            {widgetName}
           </li>
         ))}
       </ul>

@@ -8,9 +8,9 @@ export default async function Profile() {
 
     return (
         <>
-            <Header />
-            <section className="bg-ct-blue-600  min-h-screen pt-20">
-                <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
+            <section className="bg-ct-blue-600  min-h-screen relative text-white">
+                <img src="./img/login-bg.png" alt="image" className="login__bg blur-md" />
+                <div className="absolute bg-ct-dark-100 rounded-md w-full h-full flex justify-center items-center">
                     <div>
                         <p className="mb-3 text-5xl text-center font-semibold">
                             Profile Page
@@ -27,6 +27,7 @@ export default async function Profile() {
                     </div>
                 </div>
             </section>
+            <Header />
         </>
     );
 }

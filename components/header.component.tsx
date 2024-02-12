@@ -106,19 +106,19 @@ const Header = () => {
                 <ul className="flex gap-4">
                     <li>
                         <Link href="/" className="text-ct-dark-600">
-                            <span className="link link-underline link-underline-black pb-2 px-2"> Home </span>
+                            <span className="link link-underline link-underline-black pb-2 px-2 text-white"> Home </span>
                         </Link>
                     </li>
                     {!user && (
                         <>
                             <li>
                                 <Link href="/login" className="text-ct-dark-600">
-                                    <span className="link link-underline link-underline-black pb-2 px-2"> Login </span>
+                                    <span className="link link-underline link-underline-black pb-2 px-2 text-white"> Login </span>
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/register" className="text-ct-dark-600">
-                                    <span className="link link-underline link-underline-black pb-2 px-2"> Register </span>
+                                    <span className="link link-underline link-underline-black pb-2 px-2 text-white"> Register </span>
                                 </Link>
                             </li>
                         </>
@@ -127,11 +127,11 @@ const Header = () => {
                         <>
                             <li>
                                 <Link href="/profile" className="text-ct-dark-600">
-                                    <span className="link link-underline link-underline-black pb-2 px-2"> Profile </span>
+                                    <span className="link link-underline link-underline-black pb-2 px-2 text-white"> Profile </span>
                                 </Link>
                             </li>
                             <li className="cursor-pointer" onClick={() => signOut()}>
-                                <span className="link link-underline link-underline-black pb-2 px-2"> Logout </span>
+                                <span className="link link-underline link-underline-black pb-2 px-2 text-white"> Logout </span>
                             </li>
                         </>
                     )}
