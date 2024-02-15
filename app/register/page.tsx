@@ -6,8 +6,6 @@ export default function RegisterPage() {
     <>
       <section className="bg-ct-blue-600 min-h-screen text-white">
         <RegisterForm />
-
-        <Header />
       </section>
     </>
   );

@@ -1,256 +1,81 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 @layer base {
   :root {
-    --background: 200 20% 98%;
-    --btn-background: 200 10% 91%;
-    --btn-background-hover: 200 10% 89%;
-    --foreground: 200 50% 3%;
-  }
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 200 50% 3%;
-      --btn-background: 200 10% 9%;
-      --btn-background-hover: 200 10% 12%;
-      --foreground: 200 20% 96%;
-    }
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
-
+ 
 @layer base {
   * {
-    @apply border-foreground/20;
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-.animate-in {
-  animation: animateIn 0.3s ease 0.15s both;
-}
-
-@keyframes animateIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+@layer utilities {
+  .border-border {
   }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/*=============== GOOGLE FONTS ===============*/
-
-/*=============== VARIABLES CSS ===============*/
-:root {
-  /*========== Colors ==========*/
-  /*Color mode HSL(hue, saturation, lightness)*/
-  --white-color: hsl(0, 0%, 100%);
-  --black-color: hsl(0, 0%, 0%);
-
-  /*========== Font and typography ==========*/
-  /*.5rem = 8px | 1rem = 16px ...*/
-  --body-font: "Poppins", sans-serif;
-  --h1-font-size: 2rem;
-  --normal-font-size: 1rem;
-  --small-font-size: .813rem;
-}
-
-/*=============== BASE ===============*/
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body,
-input,
-button {
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/*=============== LOGIN ===============*/
-.login {
-  position: relative;
-  height: 100vh;
-  display: grid;
-  align-items: center;
-}
-
-.login__bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.login__form {
-  position: relative;
-  margin-inline: 1.5rem;
-  background-color: hsla(0, 0%, 100%, .01);
-  border: 2px solid hsla(0, 0%, 100%, .7);
-  padding: 2.1rem 1rem;
-  color: var(--white-color);
-  border-radius: 1rem;
-  backdrop-filter: blur(16px);
-}
-
-.login__title {
-  text-align: center;
-  font-size: var(--h1-font-size);
-  margin-bottom: 1.25rem;
-}
-
-.login__inputs,
-.login__box {
-  display: grid;
-}
-
-.login__inputs {
-  row-gap: 1.25rem;
-  margin-bottom: 1rem;
-}
-
-.login__box {
-  grid-template-columns: 1fr max-content;
-  column-gap: .75rem;
-  align-items: center;
-  border: 2px solid hsla(0, 0%, 100%, .7);
-  padding-inline: 1.25rem;
-  border-radius: 4rem;
-}
-
-.login__input,
-.login__button {
-  border: none;
-  outline: none;
-}
-
-.login__input {
-  width: 100%;
-  background: none;
-  color: var(--white-color);
-  padding-block: 1rem;
-}
-
-.login__input::placeholder {
-  color: var(--white-color);
-}
-
-.login__box i {
-  font-size: 1.25rem;
-}
-
-.login__check,
-.login__check-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.login__check {
-  margin-bottom: 1rem;
-  font-size: var(--small-font-size);
-}
-
-.login__check-box {
-  column-gap: .5rem;
-}
-
-.login__check-input {
-  width: 1rem;
-  height: 1rem;
-  accent-color: var(--white-color);
-}
-
-.login__forgot {
-  color: var(--white-color);
-}
-
-.login__forgot:hover {
-  text-decoration: underline;
-}
-
-.login__button {
-  width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: var(--white-color);
-  border-radius: 4rem;
-  color: var(--black-color);
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.login__register {
-  font-size: var(--small-font-size);
-  text-align: center;
-}
-
-.login__register a {
-  color: var(--white-color);
-  font-weight: 500;
-}
-
-.login__register a:hover {
-  text-decoration: underline;
-}
-
-/*=============== BREAKPOINTS ===============*/
-/* For medium devices */
-@media screen and (min-width: 576px) {
-  .login {
-    justify-content: center;
-  }
-
-  .login__form {
-    width: 420px;
-    padding-inline: 2.5rem;
-  }
-
-  .login__title {
-    margin-bottom: 2rem;
-  }
-}
-
-input:-internal-autofill-selected {
-  appearance: menulist-button;
-  background-image: none !important;
-  background-color: transparent;
-  color: fieldtext !important;
-}
-
-.link-underline {
-  border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
-  background-size: 0 3px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size .3s ease-in-out;
-}
-
-.link-underline-black {
-  border-radius: 5px;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#F2C, #F2C)
-}
-
-.link-underline:hover {
-  background-size: 100% 3px;
-  background-position: 0 100%
 }

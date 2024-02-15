@@ -2,7 +2,7 @@
 
 import Header from "@/components/header.component";
 import { useSession } from "next-auth/react";
-import DndExample from "@/components/DndExample";
+import Dnd from "@/components/Dnd";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -14,7 +14,7 @@ export default function Home() {
           <img src="./img/login-bg.png" alt="image" className="absolute w-full h-full object-cover object-center blur-md"/>
           <div className={`absolute text-[100px] w-full text-center ${ user ? " top-[100px]" : "top-1/3 h-96" }`}>
             {
-              !user ? <span>Welcome</span> : <DndExample />
+              !user ? <span>Welcome</span> : <Dnd />
             }
             
           </div>

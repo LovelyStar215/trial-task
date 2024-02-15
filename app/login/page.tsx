@@ -6,8 +6,6 @@ export default function LoginPage() {
     <>
       <section className="bg-ct-blue-600 min-h-screen text-white">
         <LoginForm />
-
-        <Header />
       </section>
     </>
   );
