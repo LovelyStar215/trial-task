@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
+import { Button } from '../ui/button';
 
 interface Quote {
   text: string;
@@ -39,14 +40,14 @@ const InspirationalQuotesWidget: React.FC = () => {
   }
 
   return (
-    <div className="p-4 border rounded-lg shadow-lg">
+    <div className="p-4">
       {loading ? (
         <p className="text-gray-600">Loading...</p>
       ) : (
         isEnabledMyQuote ?
           (
             <>
-              <textarea className="text-xl italic w-full" onChange={(e) => setMyQuote(e.target.value)} />
+              <textarea className="text-xl italic text-left m-2 w-full border-2 h-40" onChange={(e) => setMyQuote(e.target.value)} />
               <button
                 className={'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mx-3'}
                 onClick={addMyQuote}
@@ -57,27 +58,30 @@ const InspirationalQuotesWidget: React.FC = () => {
             </>
           )
           : (<>
-            <blockquote className="text-xl italic">
+            <blockquote className="text-xl italic text-left m-2 mb-10">
               <p className="mb-4">{quote.text}</p>
-              {quote.author && <footer className="text-right">{quote.author}</footer>}
+              {quote.author && <footer className="text-right text-sm">{quote.author}</footer>}
             </blockquote>
-            <button
+            <Button
               className={classNames(
-                'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded',
+                'bg-blue-500 hover:bg-blue-600 text-white text-sm mr-3',
                 { 'cursor-not-allowed': loading }
               )}
               onClick={fetchRandomQuote}
               disabled={loading}
             >
               Generate Quote
-            </button>
-            <button
-              className={'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mx-3'}
+            </Button>
+            <Button
+              className={classNames(
+                'bg-blue-500 hover:bg-blue-600 text-white text-sm',
+                { 'cursor-not-allowed': loading }
+              )}
               onClick={() => setIsEnabledMyQuote(true)}
               disabled={loading}
             >
-              Add My Quote
-            </button>
+              Add my quote
+            </Button>
           </>
           )
 

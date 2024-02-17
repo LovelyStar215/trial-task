@@ -1,7 +1,12 @@
-// components/WidgetSelector.tsx
-
 import { useState } from 'react';
+import Image from 'next/image'
 
+import clock from '@/public/widgets/Analog Clock.png';
+import cryptoPriceTicker from '@/public/widgets/Crypto Price Ticker.png';
+import cryptoStockChart from '@/public/widgets/Crypto StockChart.png';
+import embed from '@/public/widgets/Embed Widget.png';
+import quotes from '@/public/widgets/Quotes.png';
+import RSSnews from '@/public/widgets/RSSnews.png';
 interface WidgetSelectorProps {
   selectedWidget: number;
   onWidgetSelect: (widgetId: number) => void;
@@ -9,11 +14,13 @@ interface WidgetSelectorProps {
 }
 
 const WidgetSelector: React.FC<WidgetSelectorProps> = ({ selectedWidget, onWidgetSelect, onWidgetDeselect }) => {
-  const [widgets] = useState<string[]>([
-    'None',
-    'Widget 1',
-    'Widget 2',
-    'Widget 3',
+  const [widgets] = useState([
+    clock,
+    embed,
+    quotes,
+    RSSnews,
+    cryptoStockChart,
+    cryptoPriceTicker,
   ]);
   const handleWidgetClick = (widgetId: number) => {
     console.log(widgetId, selectedWidget);
@@ -27,17 +34,13 @@ const WidgetSelector: React.FC<WidgetSelectorProps> = ({ selectedWidget, onWidge
 
   return (
     <div>
-      <ul className='my-2'>
-        {widgets.map((widgetName, index) => (
-          <li
-            key={index}
-            onClick={() => handleWidgetClick(index)}
-            style={{ cursor: 'pointer', color: selectedWidget == index ? 'blue' : 'black' }}
-          >
-            {widgetName}
-          </li>
+      <div className='my-2 grid grid-cols-3'>
+        {widgets.map((widget, index) => (
+          <div className={`cursor-pointer m-2 border ${ selectedWidget == index ? "border-green-600": "border-gray-300" } rounded-lg p-1`} key={index} onClick={() => handleWidgetClick(index)}>
+            <Image className='w-full h-full' src={widget} alt="Widget Image" />
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

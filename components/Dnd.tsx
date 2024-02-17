@@ -17,6 +17,13 @@ import {
     DialogClose
 } from "@/components/ui/dialog"
 
+import AnalogClock from "./widgets/AnalogClock";
+import EmbeddedPage from "./widgets/EmbeddedPage";
+import InspirationalQuotesWidget from "./widgets/InspirationalQuotesWidget";
+// import StockChart from "./widgets/Stockchart";
+import CryptoPriceChart from "./widgets/Stockchart";
+import CryptoPrice from "./widgets/CryptoPrice";
+import RssFeedReader from "./widgets/RssFeedReader";
 interface Cards {
     id: number;
     title: string;
@@ -26,6 +33,8 @@ interface Cards {
     }[];
 }
 const Dnd = () => {
+    const widgets = [<AnalogClock />, <EmbeddedPage />, <InspirationalQuotesWidget />, <RssFeedReader />, <CryptoPriceChart />, <CryptoPrice />];
+
     const [data, setData] = useState<Cards[] | []>([])
 
     const [selectedWidget, setselectedWidget] = useState<number>(0);
@@ -235,9 +244,9 @@ const Dnd = () => {
                                         val.components?.map((component, index) => {
                                             return (
                                                 <div className="bg-gray-200 mx-1 my-1 rounded-md h-64 text-black">
-                                                    <div className="px-2 py-2 border bg-white rounded-lg h-full text-lg">
+                                                    <div className="border bg-white rounded-md h-full text-lg">
                                                         <div>
-                                                            <span>{component.widgetId}</span><br />
+                                                            {widgets[component.widgetId]}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,7 +289,7 @@ const Dnd = () => {
                                                                                                         c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21
                                                                                                         s-5.467-12.21-12.21-12.21H67.157C30.126,83.13,0,113.255,0,150.285v267.743c0,37.029,30.126,67.155,67.157,67.155h267.741
                                                                                                         c37.03,0,67.156-30.126,67.156-67.155V195.061C402.054,188.318,396.587,182.85,389.844,182.85z"/>
-                                                                                                        <path d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069
+                                                                                                    <path d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069
                                                                                                         c-2.057,4.619-1.056,10.027,2.521,13.6c2.337,2.336,5.461,3.576,8.639,3.576c1.675,0,3.362-0.346,4.96-1.057l65.07-28.963
                                                                                                         c1.83-0.815,5.114-3.97,5.396-4.25L483.876,74.169c7.131-7.131,11.06-16.61,11.06-26.692
                                                                                                         C494.936,37.396,491.007,27.915,483.876,20.791z M466.61,56.897L257.457,266.05c-0.035,0.036-0.055,0.078-0.089,0.107
@@ -331,9 +340,9 @@ const Dnd = () => {
                                                                                     </DialogContent>
                                                                                 </Dialog>
                                                                             </div>
-                                                                            <div className=" bg-white rounded-md h-full text-lg">
+                                                                            <div className="bg-white rounded-md h-full text-lg">
                                                                                 <div>
-                                                                                    <span>{component.widgetId}</span><br />
+                                                                                    {widgets[component.widgetId]}
                                                                                 </div>
                                                                             </div>
                                                                         </div>

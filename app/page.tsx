@@ -12,7 +12,7 @@ export default function Home() {
       <section className="bg-ct-blue-600 min-h-screen text-white">
         <div className="relative h-[100vh] grid items-center">
           <img src="./img/login-bg.png" alt="image" className="absolute w-full h-full object-cover object-center blur-md"/>
-          <div className={`absolute text-[100px] w-full text-center ${ user ? " top-[100px]" : "top-1/3 h-96" }`}>
+          <div className={`absolute text-[100px] w-full text-center ${ user ? " top-[90px]" : "top-1/3 h-96" }`}>
             {
               !user ? <span>Welcome</span> : <Dnd />
             }
