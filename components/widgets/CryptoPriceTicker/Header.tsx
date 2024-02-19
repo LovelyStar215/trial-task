@@ -11,7 +11,7 @@ export const Header = ({ setTable, table }: HeaderProps) => {
     localStorage.setItem("table", table);
   };
   return (
-    <header className="flex justify-center mb-2 mt-1">
+    <header className="flex justify-center mt-1">
       <div className="flex gap-0.5 justify-center bg-blue-900 p-1 rounded text-xs">
         <button
           className={`py-1 px-2 rounded ${

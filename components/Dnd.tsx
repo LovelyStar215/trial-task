@@ -3,6 +3,7 @@
 import { cardsData } from "@/lib/CardsData";
 import { useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import moment from 'moment-timezone';
 import LoadingSkeleton from "./LoadingSkeleton";
 import { DndContext } from "@/context/DndContext";
 import WidgetSelector from './dashboardcreation/WidgetSelector';
@@ -21,28 +22,67 @@ import AnalogClock from "./widgets/AnalogClock";
 import EmbeddedPage from "./widgets/EmbeddedPage";
 import InspirationalQuotesWidget from "./widgets/InspirationalQuotesWidget";
 // import StockChart from "./widgets/Stockchart";
-import CryptoPriceChart from "./widgets/Stockchart";
 import CryptoPrice from "./widgets/CryptoPrice";
 import RssFeedReader from "./widgets/RssFeedReader";
+import EditAnalogClock from "./widgets/editWidget/EditAnalogClock";
+import EditEmbedWidget from "./widgets/editWidget/EditEmbedWidget";
+import EditQutoesWidget from "./widgets/editWidget/EditQutoesWidget";
+import EditRSSWidget from "./widgets/editWidget/EditRSSWidget";
+import { defaultRSS } from "./widgets/editWidget/defaultRSS";
+import StockChart from "./widgets/Stockchart";
+import EditStockchartWidget from "./widgets/editWidget/EditStockchartWidget";
+import CryptoPortfolio from "./widgets/CryptoPortfolio";
+
 interface Cards {
     id: number;
     title: string;
     components: {
         id: number;
         widgetId: number;
+        analogClock_timezone: string;
+        embed_link: string;
+
+        quote_text: string;
+        quote_author: string;
+        
+        newsItems: any[];
+        stockChart_symbol: string;
+        cryptoPrice: Array<string>;
     }[];
 }
 const Dnd = () => {
-    const widgets = [<AnalogClock />, <EmbeddedPage />, <InspirationalQuotesWidget />, <RssFeedReader />, <CryptoPriceChart />, <CryptoPrice />];
 
     const [data, setData] = useState<Cards[] | []>([])
 
-    const [selectedWidget, setselectedWidget] = useState<number>(0);
-
     const [idToFilter, setIdToFilter] = useState<number>(0);
     const [idToEdit, setIdToEdit] = useState<number>(0);
-
     const [isLockedLayout, setIsLockedLayout] = useState<boolean>(true);
+
+    const [selectedWidget, setselectedWidget] = useState<number>(0);
+    const [selectedTimeZone, setSelectedTimeZone] = useState('UTC');
+    const [selectedEmbedLink, setSelectedEmbedLink] = useState('https://www.example.com');
+    const [selectedQuote, setSelectedQuote] = useState({
+                                                            text: "Write here",
+                                                            author: "me"
+                                                        });
+    const [selectedItems, setSelectedItems] = useState<any[]>(defaultRSS);
+    const [selectedSymbol, setSelectedSymbol] = useState<string>("bitcoin");
+
+    const handleTimezoneChange = (timeZone: string) => {
+        setSelectedTimeZone(timeZone);
+    };
+    const handleEmbedLinkChange = (link: string) => {
+        setSelectedEmbedLink(link);
+    }
+    const handleQuoteChange = (text:string, author:string) => {
+        setSelectedQuote({text, author});
+    }
+    const handleNewsChange = (items: any[]) => {
+        setSelectedItems(items);
+    }
+    const handleSymbolChange = (symbol:string) => {
+        setSelectedSymbol(symbol);
+    }
 
     const handleFilter = () => {
         setData(data.map(column => ({
@@ -72,7 +112,17 @@ const Dnd = () => {
             const minutes = currentTime.getMinutes();
             const seconds = currentTime.getSeconds();
 
-            const component = { id: year + month + day + hours * minutes * seconds, widgetId: selectedWidget };
+            const component = {
+                id: year + month + day + hours * minutes * seconds,
+                widgetId: selectedWidget,
+                analogClock_timezone: "UTC",
+                embed_link: "https://www.example.com",
+                quote_text: "Write here", 
+                quote_author: "me",
+                newsItems: defaultRSS,
+                stockChart_symbol: "bitcoin",
+                cryptoPrice: []
+            };
             if (newData.length > 0) {
                 const newWidget = [...newData[0].components];
                 newWidget.push(component);
@@ -82,12 +132,29 @@ const Dnd = () => {
         })
     };
 
+    const onClickEditButton = (componentId: number, widgetId: number) => {
+        setIdToEdit(componentId);
+    }
+
     const editDashboard = () => {
         setData(data.map(card => ({
             ...card,
             components: card.components.map(component => {
                 if (component.id === idToEdit) {
-                    return { ...component, widgetId: selectedWidget };
+                    switch (component.widgetId) {
+                        case 0:
+                            return { ...component, analogClock_timezone: selectedTimeZone };
+                        case 1:
+                            return { ...component, embed_link: selectedEmbedLink };
+                        case 2:
+                            return { ...component, quote_text: selectedQuote.text, quote_author: selectedQuote.author };
+                        case 3:
+                            return { ...component, newsItems: selectedItems };
+                        case 4:
+                            return { ...component, stockChart_symbol: selectedSymbol };
+                        case 6:
+                            return { ...component, analogClock: { timezone: selectedTimeZone } };
+                    }
                 }
                 return component;
             })
@@ -152,7 +219,11 @@ const Dnd = () => {
         }
     }, [])
     if (!data.length) {
-        return <LoadingSkeleton />
+        return (
+            <div className="w-full h-full pt-32">
+                <span className="font-bold text-6xl text-center">Loadng...</span>
+            </div>
+        )
     }
     return (
         <DndContext onDragEnd={onDragEnd}>
@@ -205,13 +276,13 @@ const Dnd = () => {
                 </svg> : <svg height="24" viewBox="0 0 24 24" width="24"><g fill="#494c4e"><path d="m19 1h-1c-2.76 0-5 2.24-5 5v3h-11c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-11c0-1.1-.9-2-2-2h-1v-3c0-1.65 1.35-3 3-3h1c1.65 0 3 1.35 3 3v6c0 .55.45 1 1 1s1-.45 1-1v-6c0-2.76-2.24-5-5-5zm-3.5 10c.28 0 .5.22.5.5v10c0 .27-.22.5-.5.5h-13c-.28 0-.5-.22-.5-.5v-10c0-.27.22-.5.5-.5z" /><path d="m11 15c0 .74-.4 1.38-1 1.73v2.27c0 .55-.45 1-1 1s-1-.45-1-1v-2.27c-.6-.35-1-.99-1-1.73 0-1.1.9-2 2-2s2 .9 2 2z" /></g></svg>}
                 </Button>
                 {
-                    isLockedLayout ?
-                        <span className="text-sm">Locked Layout</span> :
-                        <>
+                    isLockedLayout 
+                        ? <span className="text-sm">Locked Layout</span> 
+                        : <>
                             <span className="text-sm pr-6">Unlocked Layout</span>
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline" className="text-gray-500">Add Widget</Button>
+                                    <Button variant="outline" className="text-black">Add Widget</Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
@@ -239,14 +310,22 @@ const Dnd = () => {
                     isLockedLayout ?
                         data.map((val, index) => {
                             return (
-                                <div className="w-full bg-transparent  border-gray-400">
+                                <div key={index} className="w-full bg-transparent  border-gray-400">
                                     {
                                         val.components?.map((component, index) => {
                                             return (
-                                                <div className="bg-gray-200 mx-1 my-1 rounded-md h-64 text-black">
+                                                <div key={index} className="bg-gray-200 mx-1 my-1 rounded-md h-64 text-black">
                                                     <div className="border bg-white rounded-md h-full text-lg">
                                                         <div>
-                                                            {widgets[component.widgetId]}
+                                                            {
+                                                                component.widgetId == 0 ? <AnalogClock timeZone={component.analogClock_timezone} /> :
+                                                                    (component.widgetId == 1 ? <EmbeddedPage link={component.embed_link} /> :
+                                                                        (component.widgetId == 2 ? <InspirationalQuotesWidget myquote={{text: component.quote_text, author: component.quote_author}} /> :
+                                                                            (component.widgetId == 3 ? <RssFeedReader items={component.newsItems} /> :
+                                                                                (component.widgetId == 4 ? <StockChart symbol={component.stockChart_symbol} /> :
+                                                                                    (component.widgetId == 5 ? <CryptoPrice /> : 
+                                                                                        (component.widgetId == 6 ? <CryptoPortfolio /> : "" ))))))
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,10 +359,7 @@ const Dnd = () => {
                                                                             <div className="flex justify-end items-center right-0 absolute bg-pink-500 rounded-bl-md">
                                                                                 <Dialog>
                                                                                     <DialogTrigger asChild>
-                                                                                        <Button onClick={() => {
-                                                                                            setselectedWidget(component.widgetId);
-                                                                                            setIdToEdit(component.id);
-                                                                                        }} className="pr-2">
+                                                                                        <Button onClick={() => onClickEditButton(component.id, component.widgetId)} className="pr-2">
                                                                                             <svg fill="#ffffff" version="1.1" id="Capa_1" width="12px" height="12px" viewBox="0 0 494.936 494.936">
                                                                                                 <g><g><path d="M389.844,182.85c-6.743,0-12.21,5.467-12.21,12.21v222.968c0,23.562-19.174,42.735-42.736,42.735H67.157
                                                                                                         c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21
@@ -300,14 +376,18 @@ const Dnd = () => {
                                                                                     </DialogTrigger>
                                                                                     <DialogContent className="sm:max-w-[425px]">
                                                                                         <DialogHeader>
-                                                                                            <DialogTitle>Create New Dashboard</DialogTitle>
+                                                                                            <DialogTitle>Edit Dashboard</DialogTitle>
                                                                                         </DialogHeader>
                                                                                         <div className="grid gap-4 py-4">
-                                                                                            <WidgetSelector
-                                                                                                selectedWidget={selectedWidget}
-                                                                                                onWidgetSelect={handleWidgetSelect}
-                                                                                                onWidgetDeselect={handleWidgetDeselect}
-                                                                                            />
+                                                                                            {
+                                                                                                component.widgetId == 0 ? <EditAnalogClock onSelectTimezone={handleTimezoneChange} /> :
+                                                                                                    (component.widgetId == 1 ? <EditEmbedWidget onChangeLink={handleEmbedLinkChange} /> :
+                                                                                                        (component.widgetId == 2 ? <EditQutoesWidget onChangeQuotes={handleQuoteChange} /> :
+                                                                                                            (component.widgetId == 3 ? <EditRSSWidget onChangeRSSItems={handleNewsChange} /> :
+                                                                                                                (component.widgetId == 4 ? <EditStockchartWidget onChangeSymbol={handleSymbolChange} /> :
+                                                                                                                    (component.widgetId == 5 ? <CryptoPrice /> : 
+                                                                                                                        (component.widgetId == 6 ? <CryptoPortfolio /> : ""))))))
+                                                                                            }
                                                                                         </div>
                                                                                         <DialogFooter>
                                                                                             <DialogClose asChild>
@@ -342,7 +422,15 @@ const Dnd = () => {
                                                                             </div>
                                                                             <div className="bg-white rounded-md h-full text-lg">
                                                                                 <div>
-                                                                                    {widgets[component.widgetId]}
+                                                                                    {
+                                                                                        component.widgetId == 0 ? <AnalogClock timeZone={component.analogClock_timezone} /> :
+                                                                                            (component.widgetId == 1 ? <EmbeddedPage link={component.embed_link} /> :
+                                                                                                (component.widgetId == 2 ? <InspirationalQuotesWidget myquote={{text: component.quote_text, author: component.quote_author}} /> :
+                                                                                                    (component.widgetId == 3 ? <RssFeedReader items={component.newsItems} /> :
+                                                                                                        (component.widgetId == 4 ? <StockChart symbol={component.stockChart_symbol} /> :
+                                                                                                            (component.widgetId == 5 ? <CryptoPrice /> : 
+                                                                                                                (component.widgetId == 6 ? <CryptoPortfolio /> : ""))))))
+                                                                                    }
                                                                                 </div>
                                                                             </div>
                                                                         </div>

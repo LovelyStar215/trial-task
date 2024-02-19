@@ -13,14 +13,9 @@ const CryptoPrice = () => {
 
     return (
         <div className="bg-gray-50 rounded overflow-hidden flex flex-col h-[252px]">
-            <Header setTable={setTable} table={table} />
             <main className="overflow-hidden flex flex-col">
                 <TableHeader />
-                {table === "top" ? (
-                    <TopCoins />
-                ) : (
-                    <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
-                )}
+                <TopCoins />
             </main>
         </div>
     );

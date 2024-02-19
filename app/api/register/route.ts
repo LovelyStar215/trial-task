@@ -1,9 +1,9 @@
 import { hash } from "bcryptjs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const cookieStore = cookies();
         const supabase = createClient(cookieStore);

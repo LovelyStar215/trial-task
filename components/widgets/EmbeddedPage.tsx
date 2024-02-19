@@ -1,17 +1,20 @@
 import React from 'react';
 import sanitizeHtml from 'sanitize-html';
 
-const EmbeddedPage = () => {
+interface EmbeddedPageProps {
+    link: string;
+}
+const EmbeddedPage: React.FC<EmbeddedPageProps> = ({ link }) => {
     // Sanitize the URL
-    const safeUrl = sanitizeHtml("https://www.example.com");
+    console.log(link);
+    const safeUrl = sanitizeHtml(link);
 
     return (
         <iframe
-            src={safeUrl}
+            src={link}
             title="Embedded Page"
             width="100%"
             className='h-[252px] rounded-md'
-            frameBorder="2px"
             allowFullScreen
         />
     );

@@ -42,17 +42,18 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 
-
-
-const CryptoPriceChart: React.FC = () => {
+interface StockChartProps {
+  symbol: string;
+}
+const StockChart: React.FC<StockChartProps> = ({ symbol }) => {
   const [chartData, setChartData] = useState<any>({
     labels: [],
     datasets: [
       {
-        label: 'Bitcoin Price',
+        label: `${symbol} Price`,
         data: [],
         fill: false,
-        borderColor: 'rgb(75, 192, 192)',
+        borderColor: 'rgb(255, 0, 0)',
         tension: 0.1,
       },
     ],
@@ -61,7 +62,7 @@ const CryptoPriceChart: React.FC = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const response = await axios.get('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=20&interval=daily');
+        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${symbol}/market_chart?vs_currency=usd&days=20&interval=daily`);
         console.log(response);
         const data = response.data.prices;
         const labels = data.map((item: any) => new Date(item[0]).toLocaleDateString());
@@ -72,6 +73,7 @@ const CryptoPriceChart: React.FC = () => {
           datasets: [
             {
               ...chartData.datasets[0],
+              label: `${symbol} Price`,
               data: prices,
             },
           ],
@@ -82,11 +84,11 @@ const CryptoPriceChart: React.FC = () => {
     };
 
     fetchChartData();
-  }, []);
+  }, [symbol]);
 
   return (
-    <div className="rounded-lg shadow-lg pt-5">
-      <h2 className="text-xl font-bold mb-4">Crypto Price Chart</h2>
+    <div className="rounded-lg shadow-lg pt-3 pb-2">
+      <h2 className="text-xl font-bold mb-4">Stock Chart</h2>
       <div className="w-full h-48 flex items-center justify-center">
         <Line
           data={chartData}
@@ -104,4 +106,4 @@ const CryptoPriceChart: React.FC = () => {
   );
 };
 
-export default CryptoPriceChart;
+export default StockChart;

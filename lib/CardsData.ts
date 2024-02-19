@@ -1,25 +1,25 @@
 export const cardsData = [
   {
     id: 0,
-    title: "Component Librarys",
+    title: "Column1",
     components: [
     ]
   },
   {
     id: 1,
-    title: "Javascript Librarys",
+    title: "Column2",
     components: [
     ]
   },
   {
     id: 2,
-    title: "react helping Librarys",
+    title: "Column3",
     components: [
     ]
   },
   {
     id: 3,
-    title: "Next helping Librarys",
+    title: "Column4",
     components: [
     ]
   }
