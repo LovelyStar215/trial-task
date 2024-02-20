@@ -1,4 +1,5 @@
 import { hash } from "bcryptjs";
+import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
@@ -17,7 +18,17 @@ export async function POST(req: NextRequest) {
         };
         const hashed_password = await hash(password, 12);
 
-        // const user = await prisma.user.create({
+        // const user = await prisma.user.findUnique({
+        //     where: {
+        //       email: email,
+        //     },
+        //   });
+        // if (!user) {
+        //     return NextResponse.json({
+        //          message: "User already exist"
+        //      });
+        // }
+        // user = await prisma.user.create({
         //   data: {
         //     name,
         //     email: email.toLowerCase(),

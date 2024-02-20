@@ -19,6 +19,11 @@ export async function POST(req: NextRequest) {
             }[]
         }[];
 
+        // const userData = await prisma.user.findUnique({
+        //     where: {
+        //       email: user?.email,
+        //     },
+        //   });
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('user_id')
@@ -31,6 +36,49 @@ export async function POST(req: NextRequest) {
 
         console.log(userData);
 
+        // const layoutsData = await prisma.dashboardlayouts.findUnique({
+        //     where: {
+        //       user_id: userData.user_id,
+        //     },
+        //   });
+        // if (layoutsData == null) {
+        //     console.log("not exist");
+        //     insertData = await prisma.dashboardlayouts.create({
+        //      data: [
+        //             {
+        //                 user_id: user_id,
+        //                 column1: [layoutData[0]],
+        //                 column2: [layoutData[1]],
+        //                 column3: [layoutData[2]],
+        //                 column4: [layoutData[3]],
+        //             }
+        //         ],
+        //    });
+        //     console.log(insertData);
+        //     if (insertError) {
+        //         console.log(insertError);
+        //         throw insertError;
+        //     }
+        //     console.log("Inserted Data");
+        // }
+
+        // else {
+        //     console.log("exist");
+            // updateData = await prisma.yourModelName.update({
+            //     where: { user_id },
+            //     data: {
+        //             column1: [layoutData[0]],
+        //             column2: [layoutData[1]],
+        //             column3: [layoutData[2]],
+        //             column4: [layoutData[3]],
+        //         },
+            // });
+        //     console.log(updateData);
+        //     if (updateError) {
+        //         throw updateError;
+        //     }
+        //     console.log("Updated");
+        // }
         const { data: layoutsData, error: layoutsError } = await supabase
             .from('dashboardlayouts')
             .select('*')
@@ -50,11 +98,6 @@ export async function POST(req: NextRequest) {
                         column2: [layoutData[1]],
                         column3: [layoutData[2]],
                         column4: [layoutData[3]],
-                        // Add other fields from layoutData as needed
-                        // For example:
-                        // field1: layoutData.field1,
-                        // field2: layoutData.field2,
-                        // ...
                     }
                 ]);
             console.log(insertData);
@@ -103,6 +146,16 @@ export async function GET(req: Request) {
         const cookieStore = cookies();
         const supabase = createClient(cookieStore);
 
+        // const userData = await prisma.user.findUnique({
+        //     where: {
+        //       email: user?.email,
+        //     },
+        //   });
+        // const layoutsData = await prisma.dashboardlayouts.findUnique({
+        //     where: {
+        //       user_id: userData.user_id,
+        //     },
+        //   });
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('user_id')
@@ -118,8 +171,8 @@ export async function GET(req: Request) {
             .select('*')
             .eq('user_id', userData.user_id)
             .single();
-        
-        if(layoutsData == null) {
+
+        if (layoutsData == null) {
             return NextResponse.json({});
         } else {
             console.log(layoutsData);

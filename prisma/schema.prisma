@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  user_id     Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  address     String
+  wallet_address     String
+  layouts Layout[]
+  dashboard_layouts DashboardLayout[]
+}
+
+model Layout {
+  layout_id    Int       @id @default(autoincrement())
+  user_id      Int
+  layout_name  String
+  user         User      @relation(fields: [user_id], references: [user_id])
+  layout_widgets LayoutWidget[]
+}
+
+model Widget {
+  widget_id          Int       @id @default(autoincrement())
+  widget_name        String
+  widget_description String?
+  layout_widgets LayoutWidget[]
+}
+
+model LayoutWidget {
+  layout_id   Int
+  widget_id   Int
+
+  @@id([layout_id, widget_id])
+
+  layout      Layout   @relation(fields: [layout_id], references: [layout_id])
+  widget      Widget   @relation(fields: [widget_id], references: [widget_id])
+}
+
+model DashboardLayout {
+  user_id   Int        @unique
+  column1   Json[]
+  column2   Json[]
+  column3   Json[]
+  column4   Json[]
+
+  user      User     @relation(fields: [user_id], references: [user_id])
+}

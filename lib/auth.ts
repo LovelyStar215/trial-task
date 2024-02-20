@@ -1,10 +1,13 @@
 import { compare } from "bcryptjs";
+import { prisma } from "@/lib/prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma as any),
     pages: {
         signIn: "/login",
     },
@@ -30,6 +33,13 @@ export const authOptions: NextAuthOptions = {
                 }
                 const cookieStore = cookies();
                 const supabase = createClient(cookieStore);
+
+
+                // const user = await prisma.user.findUnique({
+                //     where: {
+                //       email: credentials.email,
+                //     },
+                //   });
 
                 const { data: user, error: existingError } = await supabase
                     .from('users')
