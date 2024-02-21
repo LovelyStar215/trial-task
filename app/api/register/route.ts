@@ -9,10 +9,11 @@ export async function POST(req: NextRequest) {
         const cookieStore = cookies();
         const supabase = createClient(cookieStore);
 
-        const { email, password, address, wallet_address } = (await req.json()) as {
+        const { email, password, confirmpassword, address, wallet_address } = (await req.json()) as {
             name: string;
             email: string;
             password: string;
+            confirmpassword: string;
             address: string;
             wallet_address: string;
         };

@@ -62,6 +62,33 @@ const StockChart: React.FC<StockChartProps> = ({ symbol }) => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
+        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=20&interval=daily`);
+        console.log(response);
+        const data = response.data.prices;
+        const labels = data.map((item: any) => new Date(item[0]).toLocaleDateString());
+        const prices = data.map((item: any) => item[1]);
+        setChartData({
+          ...chartData,
+          labels,
+          datasets: [
+            {
+              ...chartData.datasets[0],
+              label: `bitcoin Price`,
+              data: prices,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Error fetching chart data:', error);
+      }
+    };
+
+    fetchChartData();
+  }, []);
+
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
         const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${symbol}/market_chart?vs_currency=usd&days=20&interval=daily`);
         console.log(response);
         const data = response.data.prices;

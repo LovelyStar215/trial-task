@@ -52,7 +52,11 @@ export const RegisterForm = () => {
         e.preventDefault();
         setLoading(true);
         setFormValues({ email: "", password: "", confirmpassword: "", address: "", wallet_address: "" });
-
+        if (formValues.password != formValues.confirmpassword) {
+            setError("Incorrect Password");
+            setLoading(false);
+            return;
+        }
         try {
             const res = await fetch("/api/register", {
                 method: "POST",
